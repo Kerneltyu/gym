@@ -52,7 +52,9 @@ def evaluate_policy(pi, v_list, trans_table, reward_func):
     '''
     args:
         pi: 現在の方策
-
+        v_list: 状態価値関数
+        trans_table: 状態遷移表
+        reward_func: 報酬関数
     '''
     #traisitional probはgridworldのPで与えられる．ここでは決定的
     gamma = GAMMA

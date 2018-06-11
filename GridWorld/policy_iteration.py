@@ -83,8 +83,10 @@ def improve_policy(pi, v_list, trans_table, reward_func):
 
 def convert_arrow(pi):
     arrow_pi = []
-    for act in pi:
-        if(act == 0):
+    for s, act in enumerate(pi):
+        if(s==0 or s==len(pi)-1):
+            arrow_pi.append('G')
+        elif(act == 0):
             arrow_pi.append('↑')
         elif(act == 1):
             arrow_pi.append('→')

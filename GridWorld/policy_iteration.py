@@ -20,7 +20,8 @@ def init_policy():
     return pi
 
 def init_value():
-    v_list = rand(num_S)
+    #v_list = rand(num_S)
+    v_list = np.zeros(num_S)
     return v_list
 
 def init_trans_table():
@@ -70,13 +71,6 @@ def evaluate_policy(pi, v_list, trans_table, reward_func):
 def improve_policy(pi, v_list, trans_table, reward_func):
     gamma = GAMMA
     policy_stable = True
-    s=12
-    print('s:{}'.format(s))
-    print([ sum([trans_table[s][a][s_prime] * (reward_func[s][a][s_prime] + gamma * v_list[s_prime]) for s_prime in range(num_S)]) for a in range(len(actions))])
-    s=3
-    print('s:{}'.format(s))
-    print([ sum([trans_table[s][a][s_prime] * (reward_func[s][a][s_prime] + gamma * v_list[s_prime]) for s_prime in range(num_S)]) for a in range(len(actions))])
-
     for s in range(1, num_S-1):
         b = pi[s]
         #print([ sum([trans_table[s][a][s_prime] * (reward_func[s][a][s_prime] + gamma * v_list[s_prime]) for s_prime in range(num_S)]) for a in range(len(actions))])
@@ -85,6 +79,18 @@ def improve_policy(pi, v_list, trans_table, reward_func):
         if b != pi[s]: policy_stable = False
     return policy_stable, pi
 
+def convert_arrow(pi):
+    arrow_pi = []
+    for act in pi:
+        if(act == 0):
+            arrow_pi.append('↑')
+        elif(act == 1):
+            arrow_pi.append('→')
+        elif(act == 2):
+            arrow_pi.append('↓')
+        else:
+            arrow_pi.append('←')
+    return arrow_pi
 def main():
     s, obs = env.render()
     trans_info = env.P
@@ -102,7 +108,7 @@ def main():
         policy_stable, pi = improve_policy(pi, v_list, trans_table, reward_func)
         #print(policy_stable)
     print(np.array(v_list).reshape(4,4))
-    print(np.array(pi).reshape(4,4))
+    print(np.array(convert_arrow(pi)).reshape(4,4))
 
 if __name__ == '__main__':
     main()
